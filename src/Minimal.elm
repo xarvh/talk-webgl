@@ -2,21 +2,28 @@ module Minimal exposing (..)
 
 import Browser
 import Html exposing (Html)
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (height, style, width)
 import Math.Vector2 as Vec2 exposing (Vec2, vec2)
 import Math.Vector3 as Vec3 exposing (Vec3, vec3)
 import WebGL
 
 
-type alias Model =
-    {}
-
-
 view : Model -> Html String
 view model =
+    -- create a WebGL <canvas>
     WebGL.toHtml
-        [ style "border" "1px blue solid" ]
-        [ aTriangle ]
+        [ style "border" "1px blue solid"
+
+        -- this is the DOM element size
+        , style "width" "90vw"
+        , style "height" "50vw"
+
+        -- this is the number of pixels
+        , width 50
+        , height 50
+        ]
+        [ aTriangle
+        ]
 
 
 aTriangle : WebGL.Entity
@@ -29,30 +36,40 @@ aTriangle =
 
 
 type alias MeshAttributes =
-    -- TODO: transform to { x : Float, y : Float }
-    { position : Vec2 }
+    { x : Float
+    , y : Float
+    }
 
 
 mesh : WebGL.Mesh MeshAttributes
 mesh =
     WebGL.triangles
-        [ ( { position = vec2 -1 -1 }
-          , { position = vec2 1 -1 }
-          , { position = vec2 -1 1 }
+        [ ( { x = -1
+            , y = -1
+            }
+          , { x = 1
+            , y = -1
+            }
+          , { x = -1
+            , y = 1
+            }
           )
         ]
 
 
+{-| Transforms the Mesh Attributes into a vertex position
+-}
 vertexShader : WebGL.Shader MeshAttributes {} {}
 vertexShader =
     [glsl|
-        attribute vec2 position;
+        attribute float x;
+        attribute float y;
 
         void main () {
-            gl_Position.x = position.x;
-            gl_Position.y = position.y;
+            gl_Position.x = x;
+            gl_Position.y = y;
             gl_Position.z = 0.0;
-            gl_Position.w = 0.0;
+            gl_Position.w = 1.0;
         }
     |]
 
@@ -67,6 +84,14 @@ pixelShader =
           gl_FragColor.a = 1.0;
         }
     |]
+
+
+
+--
+
+
+type alias Model =
+    {}
 
 
 main =
