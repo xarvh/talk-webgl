@@ -14,8 +14,7 @@ type alias Model =
 
 view : Model -> Html String
 view model =
-    WebGL.toHtmlWith
-        []
+    WebGL.toHtml
         [ style "border" "1px blue solid" ]
         [ aTriangle ]
 
@@ -39,7 +38,7 @@ mesh =
     WebGL.triangles
         [ ( { position = vec2 -1 -1 }
           , { position = vec2 1 -1 }
-          , { position = vec2 1 1 }
+          , { position = vec2 -1 1 }
           )
         ]
 
@@ -52,6 +51,8 @@ vertexShader =
         void main () {
             gl_Position.x = position.x;
             gl_Position.y = position.y;
+            gl_Position.z = 0.0;
+            gl_Position.w = 0.0;
         }
     |]
 
