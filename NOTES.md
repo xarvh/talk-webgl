@@ -9,6 +9,7 @@
     - Do not modify meshes!
 
   * Shaders
+    - Special Elm syntax!!!
     - They are pure functions
     - They are passed to the GPU and executed there
 
@@ -22,10 +23,15 @@
     - Pure function with no arguments!?
 
 
-2. Varyings
+2. Uniforms
+
+  * I modified the model, so that we get the current time in seconds
+
+  * They are called Uniforms because they don't change with vertex or pixel position
+
+  * They are accessible by both Vertex and Pixel shader
 
 
-3. Uniforms
-
+3. Varyings
 
 
