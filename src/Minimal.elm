@@ -8,19 +8,19 @@ import Math.Vector3 as Vec3 exposing (Vec3, vec3)
 import WebGL
 
 
-view : Model -> Html String
+view : Model -> Html a
 view model =
     -- create a WebGL <canvas>
     WebGL.toHtml
         [ style "border" "1px blue solid"
 
-        -- this is the DOM element size
-        , style "width" "90vw"
-        , style "height" "50vw"
-
         -- this is the number of pixels
         , width 50
         , height 50
+
+        -- this is the DOM element size
+        , style "width" "600px"
+        , style "height" "300px"
         ]
         [ aTriangle
         ]
@@ -35,13 +35,13 @@ aTriangle =
         {}
 
 
-type alias MeshAttributes =
+type alias VertexAttributes =
     { x : Float
     , y : Float
     }
 
 
-mesh : WebGL.Mesh MeshAttributes
+mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
         [ ( { x = -1
@@ -59,7 +59,7 @@ mesh =
 
 {-| Transforms the Mesh Attributes into a vertex position
 -}
-vertexShader : WebGL.Shader MeshAttributes {} {}
+vertexShader : WebGL.Shader VertexAttributes {} {}
 vertexShader =
     [glsl|
         attribute float x;

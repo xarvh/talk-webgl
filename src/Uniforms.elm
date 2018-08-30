@@ -47,13 +47,13 @@ aTriangle time =
 
 
 
-type alias MeshAttributes =
+type alias VertexAttributes =
     { x : Float
     , y : Float
     }
 
 
-mesh : WebGL.Mesh MeshAttributes
+mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
         [ ( { x = -1
@@ -69,7 +69,7 @@ mesh =
         ]
 
 
-vertexShader : WebGL.Shader MeshAttributes Uniforms {}
+vertexShader : WebGL.Shader VertexAttributes Uniforms {}
 vertexShader =
     [glsl|
         // since uniform is visible by both shaders GLSL requires us to specify precision
@@ -86,7 +86,7 @@ vertexShader =
             gl_Position.x = x * sin(time / 1000.0);
             gl_Position.y = y;
             gl_Position.z = 0.0;
-            gl_Position.w = 2.0;
+            gl_Position.w = 1.0;
         }
     |]
 
@@ -103,6 +103,7 @@ pixelShader =
           // Instead of assigning each component by itself, I can assign the whole vector
           gl_FragColor = vec4(color, 1.0);
         }
+
     |]
 
 

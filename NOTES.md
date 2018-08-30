@@ -1,4 +1,10 @@
 
+0.
+  * Graphics Processing Units are basically arrays of thousands of floating point processors that work in parallel
+  * WebGL allows us to write programs that run directly on those processors
+  * These programs need to be pure
+
+
 1. Minimal.elm
 
   * Canvas width & height
@@ -25,7 +31,7 @@
 
 2. Uniforms
 
-  * I modified the model, so that we get the current time in seconds
+  * I modified the model, so that we get the current time in milliseconds
 
   * They are called Uniforms because they don't change with vertex or pixel position
 
