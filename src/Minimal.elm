@@ -19,8 +19,8 @@ view model =
         , height 50
 
         -- this is the DOM element size
-        , style "width" "600px"
-        , style "height" "300px"
+        --, style "width" "600px"
+        --, style "height" "300px"
         ]
         [ aTriangle
         ]

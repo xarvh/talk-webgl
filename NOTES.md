@@ -1,8 +1,8 @@
 
 0.
-  * Graphics Processing Units are basically arrays of thousands of floating point processors that work in parallel
-  * WebGL allows us to write programs that run directly on those processors
-  * These programs need to be pure
+  * Graphics Processing Units are basically arrays of hundreds of processors that work in parallel
+  * WebGL is a standard that allows use these processors
+  * In fact, we can even program them directly
 
 
 1. Minimal.elm
@@ -13,6 +13,7 @@
 
   * Mesh and mesh attributes
     - Do not modify meshes!
+    - coordinates go from -1 to 1, regardless of aspect ratio
 
   * Shaders
     - Special Elm syntax!!!
