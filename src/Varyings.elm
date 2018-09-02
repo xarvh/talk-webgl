@@ -16,7 +16,6 @@ view model =
         , width 600
         , height 600
         ]
-        -- We pass time to aTriangle
         [ aTriangle model.time
         ]
 
@@ -25,6 +24,8 @@ view model =
 ------------------------------------------------------------------------------
 
 
+{-| Now we have Varyings!
+-}
 type alias Varyings =
     { amplitude : Float
     }
@@ -42,7 +43,6 @@ aTriangle time =
         vertexShader
         pixelShader
         mesh
-        -- instead of {}, we specify the Uniforms!
         { color = vec3 0 1 0
         , time = time
         }
@@ -73,7 +73,6 @@ mesh =
 vertexShader : WebGL.Shader VertexAttributes Uniforms Varyings
 vertexShader =
     [glsl|
-        // since uniform is visible by both shaders GLSL requires us to specify precision
         precision mediump float;
 
         attribute float x;
@@ -103,10 +102,11 @@ pixelShader =
         uniform vec3 color;
         uniform float time;
 
+        // We receive the amplitude from the vertex shader
         varying float amplitude;
 
         void main () {
-          // Instead of assigning each component by itself, I can assign the whole vector
+          // We can use amplitude like any other variable
           gl_FragColor = vec4(color * amplitude, 1.0);
         }
 
