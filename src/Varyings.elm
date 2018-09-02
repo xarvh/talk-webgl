@@ -1,4 +1,4 @@
-module Uniforms exposing (..)
+module Varyings exposing (..)
 
 import Browser
 import Browser.Events
@@ -23,6 +23,11 @@ view model =
 
 
 ------------------------------------------------------------------------------
+
+
+type alias Varyings =
+    { amplitude : Float
+    }
 
 
 type alias Uniforms =
@@ -65,7 +70,7 @@ mesh =
         ]
 
 
-vertexShader : WebGL.Shader VertexAttributes Uniforms {}
+vertexShader : WebGL.Shader VertexAttributes Uniforms Varyings
 vertexShader =
     [glsl|
         // since uniform is visible by both shaders GLSL requires us to specify precision
@@ -77,17 +82,20 @@ vertexShader =
         uniform vec3 color;
         uniform float time;
 
+        // Varying!
+        varying float amplitude;
+
         void main () {
-            // Scale x with time
-            gl_Position.x = x * sin(time / 1000.0);
+            amplitude = sin(time / 1000.0);
+            gl_Position.x = x * amplitude;
             gl_Position.y = y;
             gl_Position.z = 0.0;
-            gl_Position.w = 1.0;
+            gl_Position.w = 2.0;
         }
     |]
 
 
-pixelShader : WebGL.Shader {} Uniforms {}
+pixelShader : WebGL.Shader {} Uniforms Varyings
 pixelShader =
     [glsl|
         precision mediump float;
@@ -95,9 +103,11 @@ pixelShader =
         uniform vec3 color;
         uniform float time;
 
+        varying float amplitude;
+
         void main () {
           // Instead of assigning each component by itself, I can assign the whole vector
-          gl_FragColor = vec4(color, 1.0);
+          gl_FragColor = vec4(color * amplitude, 1.0);
         }
 
     |]

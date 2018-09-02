@@ -41,4 +41,8 @@
 
 3. Varyings
 
+  * How do we pass stuff from the vertex shader to the pixel shader?
+
+  * Varyings are *interpolated*
+
 
