@@ -27,7 +27,7 @@ view model =
 {-| Now we have Varyings!
 -}
 type alias Varyings =
-    { amplitude : Float
+    { varyingColor : Vec3
     }
 
 
@@ -51,21 +51,18 @@ aTriangle time =
 type alias VertexAttributes =
     { x : Float
     , y : Float
+
+    -- We add a new attribute!
+    , vertexColor : Vec3
     }
 
 
 mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
-        [ ( { x = -1
-            , y = -1
-            }
-          , { x = 1
-            , y = -1
-            }
-          , { x = -1
-            , y = 1
-            }
+        [ ( { x = -1, y = -1, vertexColor = vec3 1 0 0 }
+          , { x = 1, y = -1, vertexColor = vec3 0 1 0 }
+          , { x = -1, y = 1, vertexColor = vec3 0 0 1 }
           )
         ]
 
@@ -77,19 +74,19 @@ vertexShader =
 
         attribute float x;
         attribute float y;
+        attribute vec3 vertexColor;
 
         uniform vec3 color;
         uniform float time;
 
-        // Varying!
-        varying float amplitude;
+        varying vec3 varyingColor;
 
         void main () {
-            amplitude = sin(time / 1000.0);
-            gl_Position.x = x * amplitude;
+            varyingColor = vertexColor;
+            gl_Position.x = x;
             gl_Position.y = y;
             gl_Position.z = 0.0;
-            gl_Position.w = 2.0;
+            gl_Position.w = 1.0;
         }
     |]
 
@@ -102,12 +99,10 @@ pixelShader =
         uniform vec3 color;
         uniform float time;
 
-        // We receive the amplitude from the vertex shader
-        varying float amplitude;
+        varying vec3 varyingColor;
 
         void main () {
-          // We can use amplitude like any other variable
-          gl_FragColor = vec4(color * amplitude, 1.0);
+          gl_FragColor = vec4(varyingColor, 1.0);
         }
 
     |]

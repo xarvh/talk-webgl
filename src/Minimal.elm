@@ -15,12 +15,8 @@ view model =
         [ style "border" "1px blue solid"
 
         -- this is the number of pixels
-        , width 50
-        , height 50
-
-        -- this is the DOM element size
-        --, style "width" "600px"
-        --, style "height" "300px"
+        , width 600
+        , height 300
         ]
         [ aTriangle
         ]
@@ -44,15 +40,9 @@ type alias VertexAttributes =
 mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
-        [ ( { x = -1
-            , y = -1
-            }
-          , { x = 1
-            , y = -1
-            }
-          , { x = -1
-            , y = 1
-            }
+        [ ( {- Vertex A -} { x = -1, y = -1 }
+          , {- Vertex B -} { x = 1, y = -1 }
+          , {- Vertex C -} { x = -1, y = 1 }
           )
         ]
 
@@ -62,6 +52,8 @@ mesh =
 vertexShader : WebGL.Shader VertexAttributes {} {}
 vertexShader =
     [glsl|
+        precision mediump float;
+
         attribute float x;
         attribute float y;
 
@@ -77,6 +69,8 @@ vertexShader =
 pixelShader : WebGL.Shader {} {} {}
 pixelShader =
     [glsl|
+        precision mediump float;
+
         void main () {
           gl_FragColor.r = 1.0;
           gl_FragColor.g = 0.0;

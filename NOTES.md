@@ -1,19 +1,20 @@
 
 0.
   * Graphics Processing Units are basically arrays of hundreds of processors that work in parallel
-  * WebGL is a standard that allows use these processors
-  * In fact, we can even program them directly
+  * WebGL is a standard that allows to use these processors
+  * In fact, we can even write programs that are executed on them
 
 
 1. Minimal.elm
 
-  * Canvas width & height
+  * Do not confuse width and height with CSS properties!
 
   * Defining a WebGL Entity
 
   * Mesh and mesh attributes
-    - Do not modify meshes!
+    - Mesh defines vertices and surfaces
     - coordinates go from -1 to 1, regardless of aspect ratio
+    - -1,+1 interval is stretched over the canvas
 
   * Shaders
     - Special Elm syntax!!!
@@ -22,7 +23,8 @@
 
   * Vertex Shader
     - Transforms the Mesh Attributes into a Vertex
-    - Example usage: scale triangle down
+    - Example usage: scale coordinates to keep aspect ratio regardless of canvas size
+    - Example usage: rotate, scale and position an object in space
 
   * Pixel Shader
     - Called 'Fragment' Shader
@@ -44,5 +46,21 @@
   * How do we pass stuff from the vertex shader to the pixel shader?
 
   * Varyings are *interpolated*
+
+
+
+-------------------
+
+* WebGL.toHtml
+  (Remember ratios and resolution)
+
+* Mesh = Attributes + surfaces
+  (Don't mutate them)
+
+* Uniforms + Attributes -> vertex shader -> gl_Position + Varyings
+
+* Uniforms + Varyings -> pixel shader -> gl_FragColor
+
+
 
 

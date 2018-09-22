@@ -52,15 +52,9 @@ type alias VertexAttributes =
 mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
-        [ ( { x = -1
-            , y = -1
-            }
-          , { x = 1
-            , y = -1
-            }
-          , { x = -1
-            , y = 1
-            }
+        [ ( { x = -1, y = -1 }
+          , { x = 1, y = -1 }
+          , { x = -1, y = 1 }
           )
         ]
 
@@ -68,7 +62,6 @@ mesh =
 vertexShader : WebGL.Shader VertexAttributes Uniforms {}
 vertexShader =
     [glsl|
-        // since uniform is visible by both shaders GLSL requires us to specify precision
         precision mediump float;
 
         attribute float x;
