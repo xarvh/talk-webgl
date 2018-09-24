@@ -51,16 +51,6 @@
 
 -------------------
 
-* WebGL.toHtml
-  (Remember ratios and resolution)
-
-* Mesh = Attributes + surfaces
-  (Don't mutate them)
-
-* Uniforms + Attributes -> vertex shader -> gl_Position + Varyings
-
-* Uniforms + Varyings -> pixel shader -> gl_FragColor
-
 
 
 
