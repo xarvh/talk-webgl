@@ -9,3 +9,5 @@
 
 * Uniforms + Varyings -> [PixelShader] -> gl_FragColor
 
+* https://github.com/xarvh/elm-webgl-quickstart
+
