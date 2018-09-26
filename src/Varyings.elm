@@ -28,12 +28,12 @@ view model =
 -}
 type alias Varyings =
     { varyingColor : Vec3
+    , varyingAmplitude : Float
     }
 
 
 type alias Uniforms =
-    { color : Vec3
-    , time : Float
+    { time : Float
     }
 
 
@@ -43,8 +43,7 @@ aTriangle time =
         vertexShader
         pixelShader
         mesh
-        { color = vec3 0 1 0
-        , time = time
+        { time = time
         }
 
 
@@ -52,17 +51,18 @@ type alias VertexAttributes =
     { x : Float
     , y : Float
 
-    -- We add a new attribute!
+    -- We add new attributes!
     , vertexColor : Vec3
+    , vertexPhase : Float
     }
 
 
 mesh : WebGL.Mesh VertexAttributes
 mesh =
     WebGL.triangles
-        [ ( { x = -1, y = -1, vertexColor = vec3 1 0 0 }
-          , { x = 1, y = -1, vertexColor = vec3 0 1 0 }
-          , { x = -1, y = 1, vertexColor = vec3 0 0 1 }
+        [ ( { x = -1, y = -1, vertexColor = vec3 1 0 0, vertexPhase = 0.4 }
+          , { x = 1, y = -1, vertexColor = vec3 0 1 0, vertexPhase = 0.6 }
+          , { x = -1, y = 1, vertexColor = vec3 0 0 1, vertexPhase = 0.7 }
           )
         ]
 
@@ -75,16 +75,18 @@ vertexShader =
         attribute float x;
         attribute float y;
         attribute vec3 vertexColor;
+        attribute float vertexPhase;
 
-        uniform vec3 color;
         uniform float time;
 
         varying vec3 varyingColor;
+        varying float varyingAmplitude;
 
         void main () {
             varyingColor = vertexColor;
-            gl_Position.x = x;
-            gl_Position.y = y;
+            varyingAmplitude = 0.5 + 0.5 * sin(time / 1000.0 + vertexPhase);
+            gl_Position.x = x * varyingAmplitude;
+            gl_Position.y = y * (1.0 - varyingAmplitude);
             gl_Position.z = 0.0;
             gl_Position.w = 1.0;
         }
@@ -96,13 +98,13 @@ pixelShader =
     [glsl|
         precision mediump float;
 
-        uniform vec3 color;
         uniform float time;
 
         varying vec3 varyingColor;
+        varying float varyingAmplitude;
 
         void main () {
-          gl_FragColor = vec4(varyingColor, 1.0);
+          gl_FragColor = vec4(varyingColor * (0.5 + varyingAmplitude), 1.0);
         }
 
     |]
